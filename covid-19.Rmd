@@ -1,0 +1,57 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+---
+```{r}
+library(dplyr) 
+
+library(tidyverse) 
+
+library(infer) 
+
+library(knitr) 
+
+library(broom) 
+
+```
+```{r}
+covid<-read.csv("national-history.csv")
+covid
+```
+
+
+```{r}
+lm.fit<-lm(formula=positiveIncrease~death,data=covid)
+lm.fit
+glance(lm.fit)
+```
+```{r}
+covid%>%
+  ggplot(aes(positiveIncrease,death))+
+  geom_point(color="blue")+
+  geom_smooth(method="lm",se=FALSE,color="red")+
+  labs(title = "newcases vs death",
+       x= "new cases",
+       y= "death",
+       caption = "P-value= 1.721158e-50")
+
+  
+```
+```{r}
+lm.fit<-lm(formula=positiveIncrease~positive,data=covid)
+lm.fit
+glance(lm.fit)
+```
+
+
+```{r}
+covid%>%
+  ggplot(aes(positiveIncrease,positive))+
+  geom_point(color="blue")+
+  geom_smooth(method="lm",se=FALSE,color="red")+
+  labs(title = "new cases vs commulative cases ",
+       x= "new cases",
+       y= "commulative cases",
+       caption = "P-value= 9.702882e-65	")
+```
